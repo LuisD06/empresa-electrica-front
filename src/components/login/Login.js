@@ -1,37 +1,37 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
-import AuthContext from '../../context/AuthProvider';
 import { Link, Outlet, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthProvider";
 import axios from "../api/axios";
-const LOGIN_URL = "/consumidor/login";
+const LOGIN_URL = "/usuario/login";
 export const Login = () => {
     const navigate = useNavigate();
-    const { setAuth } = useContext(AuthContext);
     const userRef = useRef(null);
     const errorRef = useRef(null);
     const [user, setUser] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [success, setSuccess] = useState(false);
+    const {userContext, setUserContext} = useContext(AuthContext);
 
     const handleSubmit = async (evt) => {
         evt.preventDefault();
         try {
             const response = await axios.post(
                 LOGIN_URL,
-                JSON.stringify({"usuario": user,"contrasena": password}),
+                JSON.stringify({"cedula": user,"clave": password}),
                 {
                     headers: {
                         'Content-Type':'application/json',
                     },
-                    // withCredentials: true
                 }
             );
             console.log(JSON.stringify(response?.data));
-            const { status, message } = response?.data;
-            console.log(status);
+            const { status, data } = response?.data;
+            console.log(status, data);
             // TODO: Validar jwt
             if (status) {
-                navigate("/dashboard");
+                setUserContext(data);
+                navigate("/user/dashboard");
             }
             // const accessToken = response?.data?.accessToken;
             // const roles = response?.data?.roles;
