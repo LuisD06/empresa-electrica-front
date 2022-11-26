@@ -23,8 +23,8 @@ export const Dashboard = () => {
                 date: item.data.date,
                 voltaje: item.data.voltaje
             }));
-            console.log(filteredList);
-            setData(filteredList);
+            console.log(dateLabelList);
+            setData(dateLabelList);
         })
     }
     
