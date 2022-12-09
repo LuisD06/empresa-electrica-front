@@ -21,32 +21,12 @@ ChartJS.register(
     Legend
 );
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-
-export const newData = {
-    labels,
-    datasets: [
-        {
-            label: 'Dataset 1',
-            data: [-10, 1, 2, 3, 4, 5, 6],
-            borderColor: 'rgb(255, 99, 132)',
-            backgroundColor: 'rgba(255, 99, 132, 0.5)',
-            
-        },
-    ],
-};
-export const ChartVoltaje = ({labels, datasets }) => {
+export const ChartVoltaje = ({labels, datasets, title}) => {
     const [data, setData] = useState({
         labels: labels,
-        datasets: [
-            {
-                label: 'Volts',
-                data: datasets,
-                borderColor: 'rgb(255, 99, 132)',
-                backgroundColor: 'rgba(255, 99, 132, 0.5)',
-            }
-        ]
+        datasets: datasets
     });
+    const [chartTitle, setChartTitle] = useState("");
     const options = {
         responsive: true,
         plugins: {
@@ -55,7 +35,7 @@ export const ChartVoltaje = ({labels, datasets }) => {
             },
             title: {
                 display: true,
-                text: 'Voltaje',
+                text: chartTitle,
             },
         },
         scales: {
@@ -69,18 +49,17 @@ export const ChartVoltaje = ({labels, datasets }) => {
         () => {
             setData({
                 labels: labels,
-                datasets: [
-                    {
-                        label: 'Volts',
-                        data: datasets,
-                        borderColor: 'rgb(255, 99, 132)',
-                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                    }
-                ]
+                datasets: datasets
             })
         },
         [labels, datasets]
     );
+    useEffect(
+        () => {
+            setChartTitle(title);
+        },
+        [title]
+    )
 
     return (
         <div>

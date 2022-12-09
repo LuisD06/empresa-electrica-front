@@ -9,31 +9,49 @@ export const Dashboard = () => {
     const [medidor, setMedidor] = useState({});
     const [data, setData] = useState([]);
     const [connectedWS, setConnectedWS] = useState(false);
+    const [day, setDay] = useState("");
+    const [month, setMonth] = useState("");
     const { userContext } = useContext(AuthContext);
     const websocket = useRef(null);
-    const handleViewChart = () => {
+    const handleViewChart = (evt, type) => {
+        if (type === 'day') {
+            setDay(evt.target.value);
+            setMonth("");
+        }
+        if (type === 'month') {
+            setMonth(evt.target.value);
+            setDay("");
+        }
+        const data = {
+            date: evt.target.value
+        }
+        console.log(data);
+
         axios({
-            method: "get",
-            url: "http://localhost:4000/api/medidor",
+            method: "post",
+            url: `http://localhost:4000/api/medidor/${type}`,
             headers: {
                 "Content-Type": "application/json",
             },
+            data: data
         }).then((res) => {
             const dateLabelList = res.data.map(item => ({
                 date: item.data.date,
-                voltaje: item.data.voltaje
+                voltaje: item.data.voltaje,
+                energia: item.data.energia,
+                corriente: item.data.corriente
             }));
             console.log(dateLabelList);
             setData(dateLabelList);
         })
     }
-    
+
     useEffect(
         () => {
             websocket.current = new WebSocket("ws://localhost:4000");
             websocket.current.onopen = () => console.log();
             websocket.current.onmessage = (event) => console.log(setMedidor(JSON.parse(event.data)));
-            websocket.current.onclose = (event) => console.log("ws closed"+event.data);
+            websocket.current.onclose = (event) => console.log("ws closed" + event.data);
             const wsCurrent = websocket.current;
             return () => {
                 wsCurrent.close();
@@ -52,19 +70,9 @@ export const Dashboard = () => {
             <div className="dashboard">
                 <div className="content">
                     <div className="main-content">
-                        <div className='info-section'>
-                            <h2>Tiempo real</h2>
-                            <div className='info-container graph-container'>
-                                <GraphicVoltaje value={medidor.Corriente} title={"Corriente"} />
-                                <GraphicVoltaje value={medidor.Energia} title={"Energía"} />
-                                <GraphicVoltaje value={medidor.Power} title={"Power"} />
-                                <GraphicVoltaje value={medidor.Temperatura} title={"Temperatura"} />
-                                <GraphicVoltaje value={medidor.Voltaje} title={"Voltaje"} />
-                            </div>
-                        </div>
-                        <div className="info-container">
-                            <h3>Información del cliente</h3>
-                            <div className="client-info-container">
+                        <div className="info-section">
+                            <h2>Información del cliente</h2>
+                            <div className="info-container">
                                 <div className="client-info-group">
                                     <h4>Nombre</h4>
                                     <p>{userContext.nombre}</p>
@@ -83,15 +91,53 @@ export const Dashboard = () => {
                                 </div>
 
                             </div>
-                        </div>
-                        <div className="chart-container">
-                            <button onClick={() => handleViewChart()}>Ver datos de voltaje</button>
-                            <ChartVoltaje
-                                datasets={data.map(medidorItem => medidorItem.voltaje)}
-                                labels={data.map(medidoritem => medidoritem.date)}
-                            />
 
                         </div>
+                        <div className='info-section'>
+                            <h2>Tiempo real</h2>
+                            <div className='info-container graph-container'>
+                                <GraphicVoltaje value={medidor.Corriente} title={"Corriente"} />
+                                <GraphicVoltaje value={medidor.Energia} title={"Energía"} />
+                                <GraphicVoltaje value={medidor.Power} title={"Power"} />
+                                <GraphicVoltaje value={medidor.Temperatura} title={"Temperatura"} />
+                                <GraphicVoltaje value={medidor.Voltaje} title={"Voltaje"} />
+                            </div>
+                        </div>
+                        <div className="chart-container">
+                            <input type="date" onChange={(evt) => handleViewChart(evt, 'day')} value={day}></input>
+                            <input type="month" onChange={(evt) => handleViewChart(evt, 'month')} value={month}></input>
+                            <ChartVoltaje
+                                datasets={[
+                                    {
+                                        label: 'J',
+                                        data: data.map(medidorItem => medidorItem.energia),
+                                        borderColor: 'rgb(94, 230, 216)',
+                                        backgroundColor: 'rgba(94, 230, 216, 0.5)'
+                                    },
+                                    {
+                                        label: 'A',
+                                        data: data.map(medidorItem => medidorItem.corriente),
+                                        borderColor: 'rgb(87, 242, 139)',
+                                        backgroundColor: 'rgba(87, 242, 139, 0.5)'
+                                    },
+                                ]}
+                                labels={data.map(medidoritem => medidoritem.date)}
+                                title="Energía, Corriente"
+                            />
+                        </div>
+                        <div className="chart-container">
+                            <ChartVoltaje
+                                datasets={[{
+                                    label: 'Volts',
+                                    data: data.map(medidorItem => medidorItem.voltaje),
+                                    borderColor: 'rgb(255, 99, 132)',
+                                    backgroundColor: 'rgba(255, 99, 132, 0.5)'
+                                }]}
+                                labels={data.map(medidoritem => medidoritem.date)}
+                                title="Voltaje"
+                            />
+                        </div>
+                        
 
                     </div>
                 </div>
