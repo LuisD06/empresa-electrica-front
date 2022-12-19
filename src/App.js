@@ -3,8 +3,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Dashboard } from "./components/dashboard/Dashboard";
 import Layout from "./components/layout/Layout";
 import { Login } from "./components/login/Login";
+import { Reports } from './components/pages/reports/reports';
 import { Register } from "./components/register/Register";
-import { Reports } from "./components/reports/Reports";
 import { AuthContext } from "./context/AuthProvider";
 
 function App() {

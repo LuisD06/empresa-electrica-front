@@ -8,7 +8,6 @@ import './DashboardStyle.css';
 export const Dashboard = () => {
     const [medidor, setMedidor] = useState({});
     const [data, setData] = useState([]);
-    const [connectedWS, setConnectedWS] = useState(false);
     const [day, setDay] = useState("");
     const [month, setMonth] = useState("");
     const { userContext } = useContext(AuthContext);
@@ -35,6 +34,7 @@ export const Dashboard = () => {
             },
             data: data
         }).then((res) => {
+            console.log(res);
             const dateLabelList = res.data.map(item => ({
                 date: item.data.date,
                 voltaje: item.data.voltaje,
@@ -58,12 +58,6 @@ export const Dashboard = () => {
             };
         },
         []
-    );
-    useEffect(
-        () => {
-            console.log(connectedWS);
-        },
-        [connectedWS]
     );
     return (
         <>
@@ -107,6 +101,21 @@ export const Dashboard = () => {
                             <input type="date" onChange={(evt) => handleViewChart(evt, 'day')} value={day}></input>
                             <input type="month" onChange={(evt) => handleViewChart(evt, 'month')} value={month}></input>
                             <ChartVoltaje
+                                datasets={[{
+                                    label: 'Volts',
+                                    data: data.map(medidorItem => medidorItem.voltaje),
+                                    borderColor: 'rgb(255, 99, 132)',
+                                    backgroundColor: 'rgba(255, 99, 132, 0.5)'
+                                }]}
+                                labels={data.map(medidoritem => {
+                                    const date = new Date(medidoritem.date).getHours();
+                                    return date + "h";
+                                })}
+                                title={`Voltaje ${day}`}
+                            />
+                        </div>
+                        <div className="chart-container">
+                            <ChartVoltaje
                                 datasets={[
                                     {
                                         label: 'J',
@@ -121,24 +130,13 @@ export const Dashboard = () => {
                                         backgroundColor: 'rgba(87, 242, 139, 0.5)'
                                     },
                                 ]}
-                                labels={data.map(medidoritem => medidoritem.date)}
-                                title="Energía, Corriente"
+                                labels={data.map(medidoritem => {
+                                    const date = new Date(medidoritem.date).getDate();
+                                    return date;
+                                })}
+                                title={`Energía, Corriente ${month}`}
                             />
                         </div>
-                        <div className="chart-container">
-                            <ChartVoltaje
-                                datasets={[{
-                                    label: 'Volts',
-                                    data: data.map(medidorItem => medidorItem.voltaje),
-                                    borderColor: 'rgb(255, 99, 132)',
-                                    backgroundColor: 'rgba(255, 99, 132, 0.5)'
-                                }]}
-                                labels={data.map(medidoritem => medidoritem.date)}
-                                title="Voltaje"
-                            />
-                        </div>
-                        
-
                     </div>
                 </div>
             </div>

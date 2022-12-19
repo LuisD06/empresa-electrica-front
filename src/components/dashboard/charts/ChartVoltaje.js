@@ -63,7 +63,7 @@ export const ChartVoltaje = ({labels, datasets, title}) => {
 
     return (
         <div>
-            <Line width="50px" height="50px"  options={options} data={data} />
+            <Line width="50px" height="10px"  options={options} data={data} />
         </div>
     );
 }
