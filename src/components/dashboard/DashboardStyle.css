@@ -124,3 +124,7 @@
     flex-direction: column;
     height: 500px;
 }
+
+.map-section {
+    grid-column: 1/4;
+}
