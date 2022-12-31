@@ -51,7 +51,7 @@ export const Dashboard = () => {
         () => {
             websocket.current = new WebSocket("ws://localhost:4000");
             websocket.current.onopen = () => console.log();
-            websocket.current.onmessage = (event) => console.log(setMedidor(JSON.parse(event.data)));
+            websocket.current.onmessage = (event) => setMedidor(JSON.parse(event.data));
             websocket.current.onclose = (event) => console.log("ws closed" + event.data);
             const wsCurrent = websocket.current;
             return () => {
@@ -100,7 +100,7 @@ export const Dashboard = () => {
                             </div>
                         </div>
                         <div className='map-section'>
-                            <Map/>
+                            <Map position={[userContext.medidor.lat, userContext.medidor.lng]}/>
                         </div>
                         
                         <div className="chart-container">

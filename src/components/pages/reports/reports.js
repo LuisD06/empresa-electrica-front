@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import './reports.css';
+import { RegisterReport } from '../../templates/register-report/register-report';
+import './reports.scss';
 import { useFilterReports } from './use-filter-list/use-filter-reports';
 export const Reports = () => {
 
@@ -49,6 +50,9 @@ export const Reports = () => {
             { mapTableRows(filteredList) }
           </tbody>
         </table>
+      </div>
+      <div className='reports__form-wrapper'>
+        <RegisterReport/>
       </div>
 
     </div>

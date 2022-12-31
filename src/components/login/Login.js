@@ -11,17 +11,17 @@ export const Login = () => {
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [success, setSuccess] = useState(false);
-    const {userContext, setUserContext} = useContext(AuthContext);
+    const { userContext, setUserContext } = useContext(AuthContext);
 
     const handleSubmit = async (evt) => {
         evt.preventDefault();
         try {
             const response = await axios.post(
                 LOGIN_URL,
-                JSON.stringify({"cedula": user,"clave": password}),
+                JSON.stringify({ "cedula": user, "clave": password }),
                 {
                     headers: {
-                        'Content-Type':'application/json',
+                        'Content-Type': 'application/json',
                     },
                 }
             );
@@ -31,7 +31,11 @@ export const Login = () => {
             // TODO: Validar jwt
             if (status) {
                 setUserContext(data);
-                navigate("/user/dashboard");
+                if (data.tipo === 'operador') {
+                    navigate("/user/reports");
+                }else {
+                    navigate("/user/dashboard");
+                }
             }
             // const accessToken = response?.data?.accessToken;
             // const roles = response?.data?.roles;
@@ -52,7 +56,7 @@ export const Login = () => {
             errorRef.current.focus();
         }
 
-        
+
     }
 
     useEffect(() => {
@@ -77,9 +81,9 @@ export const Login = () => {
                         <form onSubmit={handleSubmit}>
                             <div className="form-group">
                                 <label htmlFor="userName">Nombre de usuario</label>
-                                <input 
-                                    type="text" 
-                                    name="userName" 
+                                <input
+                                    type="text"
+                                    name="userName"
                                     id="username"
                                     ref={userRef}
                                     value={user}
@@ -88,9 +92,9 @@ export const Login = () => {
                             </div>
                             <div className="form-group">
                                 <label htmlFor="userPassword">Contraseña</label>
-                                <input 
-                                    type="password" 
-                                    name="userPassword" 
+                                <input
+                                    type="password"
+                                    name="userPassword"
                                     id="userpassword"
                                     ref={userRef}
                                     value={password}
