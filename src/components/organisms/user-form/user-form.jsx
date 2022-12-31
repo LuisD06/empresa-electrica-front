@@ -41,7 +41,7 @@ export const UserForm = () => {
         </Button>
       </form>
       <div className='user-form__map-wrapper'>
-        <Map search={true} onClick={(value) => handleChangeValue('direccion',`${value.lat},${value.lng}`)}/>
+        <Map position={[-0.1892741496883334, -78.4977070330735]} search={true} onClick={(value) => handleChangeValue('direccion',`${value.lat},${value.lng}`)}/>
       </div>
     </div>
   );

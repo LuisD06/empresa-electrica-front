@@ -26,10 +26,10 @@
     border: 1px solid #ddd;
   }
 
-  &__table-row th,
-  td {
+
+  &__table-row th, td {
     text-align: center;
-    font-size: 10px;
+    font-size: 1rem;
   }
 
   &__table-actions input {
@@ -43,5 +43,16 @@
 
   &__form-wrapper {
     margin-top: 10px;
+  }
+  &__filter-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  &__map-wrapper {
+    width: 100%;
+    height: 20rem;
+    padding: 10px 0px;
   }
 }

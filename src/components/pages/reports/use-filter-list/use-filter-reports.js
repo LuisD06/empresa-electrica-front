@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { REPORTS_LIST } from '../../../../constants/reports';
+import { getReports } from '../../../../services/report-service/report-service';
 
 
 export const useFilterReports = () => {
@@ -10,14 +11,20 @@ export const useFilterReports = () => {
 
   useEffect(
     () => {
-      setReportsList(REPORTS_LIST);
-      setFilteredList(REPORTS_LIST);
+      getList();
     },
     []
   )
+  const getList = () => {
+    getReports().then((data) => {
+      setReportsList(data);
+      setFilteredList(data);
+    }).catch((error) => {
+      console.log(error);
+    })
+  }
 
   const filterByProperty = (property, value) => {
-    console.log(typeof (value));
     setFilters((currentFilters) => {
       const newFilter = {
         name: property,

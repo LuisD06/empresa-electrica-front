@@ -1,11 +1,11 @@
-import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
+import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet'
 import { useMapEvents } from 'react-leaflet/hooks'
 import L from 'leaflet'
 import "leaflet/dist/leaflet.css"
 import './map.css'
 import icon from 'leaflet/dist/images/marker-icon.png'
 import iconShadow from 'leaflet/dist/images/marker-shadow.png'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 let DefaultIcon = L.icon({
   iconUrl: icon,
@@ -14,25 +14,39 @@ let DefaultIcon = L.icon({
 });
 
 L.Marker.prototype.options.icon = DefaultIcon;
-export const Map = ({ search = false, onClick, position=[-0.2542279958, -78.5103988647] }) => {
+export const Map = ({ search = false, onClick, position }) => {
+
   return (
-    <MapContainer className='map' center={position} zoom={13} scrollWheelZoom={true}>
+    <MapContainer className='map' center={position} zoom={13} scrollWheelZoom={true} >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
+      
       {
         search ?
           <LocationMarker onClick={(value) => onClick(value)} /> :
-          <Marker position={position} >
-            <Popup>
-              Medidor IOT
-            </Popup>
-          </Marker>
+          <>
+            <CenterPosition  position={position}/>
+            <Marker position={position} >
+              <Popup>
+                Medidor IOT
+              </Popup>
+            </Marker>
+          </>
       }
     </MapContainer>
   );
 }
+export const CenterPosition = ({ position }) => {
+  const map = useMap();
+  useEffect(() => {
+    map.flyTo(position)
+  }, [position])
+
+  return null
+}
+
 export const LocationMarker = ({ onClick }) => {
   const [position, setPosition] = useState(null);
   const map = useMapEvents({
@@ -46,7 +60,9 @@ export const LocationMarker = ({ onClick }) => {
       setPosition(e.latlng)
       map.flyTo(e.latlng, map.getZoom())
     },
+
   })
+
 
   return position === null ? null : (
     <Marker position={position}>
