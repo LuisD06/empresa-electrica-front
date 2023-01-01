@@ -4,10 +4,15 @@
   flex-direction: column;
   gap: 10px;
   &__button {
-    width: 40%;
-    height: 35px;
+    width: 65%;
+    height: 2rem;
   }
   &__title {
     margin: 0;
+  }
+  &__date-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px
   }
 }

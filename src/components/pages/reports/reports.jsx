@@ -4,13 +4,13 @@ import { Map } from '../../organisms/map/map';
 import { RegisterReport } from '../../templates/register-report/register-report';
 import './reports.scss';
 import { useFilterReports } from './use-filter-list/use-filter-reports';
-import useGeneratePdf from './use-generate-pdf/use-generate-pdf';
+import { useGetReportsPdf } from './use-get-reports-pdf/use-get-reports-pdf';
 import { useShowMap } from './use-show-map/use-show-map';
 export const Reports = () => {
 
   const { reportsList, filteredList, filterByProperty, isFiltered, filters } = useFilterReports();
   const { handleShowMap, position } = useShowMap();
-  const { handleGeneratePdf } = useGeneratePdf();
+  const { handleSubmitPdf } = useGetReportsPdf();
   const mapTableRows = (list) => {
     return list.map((report) => (
       <tr key={report.id} className="reports__table-row">
@@ -76,8 +76,10 @@ export const Reports = () => {
       <div className='reports__map-wrapper'>
         <Map search={false} position={position} />
       </div>
-      <div className='report__pdf-wrapper'>
-        <Button onClick={handleGeneratePdf}/> 
+      <div className='reports__pdf-wrapper'>
+        <Button onClick={() => handleSubmitPdf(filteredList)}>
+          PDF
+        </Button>
       </div>
       <div className='reports__form-wrapper'>
         <RegisterReport />
