@@ -1,0 +1,19 @@
+.alert {
+  border-radius: 12px;
+  width: 50%;
+  height: 50%;
+  background-color: #05AFF2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 5px;
+  &__button-wrapper {
+    width: 45%;
+    height: 2rem;
+  }
+  &__title {
+    margin: 5px 0px;
+    color: white;
+  }
+}

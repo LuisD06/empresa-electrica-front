@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Button } from '../../atoms/button/button';
+import { Alert } from '../../molecules/alert/alert';
 import { Map } from '../../organisms/map/map';
 import { RegisterReport } from '../../templates/register-report/register-report';
 import './reports.scss';
@@ -8,7 +9,7 @@ import { useGetReportsPdf } from './use-get-reports-pdf/use-get-reports-pdf';
 import { useShowMap } from './use-show-map/use-show-map';
 export const Reports = () => {
 
-  const { reportsList, filteredList, filterByProperty, isFiltered, filters } = useFilterReports();
+  const { reportsList, filteredList, filterByProperty, isFiltered, filters, success, setSuccess, statusMessage } = useFilterReports();
   const { handleShowMap, position } = useShowMap();
   const { handleSubmitPdf } = useGetReportsPdf();
   const mapTableRows = (list) => {
@@ -84,6 +85,12 @@ export const Reports = () => {
       <div className='reports__form-wrapper'>
         <RegisterReport />
       </div>
+      {
+        success &&
+        <div className='reports__alert-wrapper'>
+          <Alert title={statusMessage} onClick={() => setSuccess(false)}/>
+        </div>
+      }
 
 
     </div>

@@ -6,22 +6,30 @@ const useReportForm = () => {
     id: '',
     date: ''
   })
+  const [success, setSuccess] = useState(false);
+  const [statusMessage, setStatusMessage] = useState('Status');
   const handleChangeValue = (key, value) => {
     setForm((currentForm) => {
       return ({...currentForm, [key]:value});
     })
   }
-  const handleSubmit = () => {
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
     createReport(form).then((data) => {
-      console.log(data)
+      setStatusMessage('Operacion realizada con éxito !');
+      setSuccess(true);
     }).catch((error) => {
-      console.log(error);
+      setStatusMessage('Ha ocurrido un error');
+      setSuccess(true);
     })
   }
   return {
     form,
     handleChangeValue,
-    handleSubmit
+    handleSubmit,
+    success,
+    setSuccess,
+    statusMessage
   }
 }
 

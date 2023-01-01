@@ -8,6 +8,8 @@ export const useFilterReports = () => {
   const [filteredList, setFilteredList] = useState([]);
   const [isFiltered, setIsFiltered] = useState(false);
   const [filters, setFilters] = useState([]);
+  const [success, setSuccess] = useState(false);
+  const [statusMessage, setStatusMessage] = useState('Status');
 
   useEffect(
     () => {
@@ -20,7 +22,8 @@ export const useFilterReports = () => {
       setReportsList(data);
       setFilteredList(data);
     }).catch((error) => {
-      console.log(error);
+      setStatusMessage('Ha ocurrido un error al obtener los datos');
+      setSuccess(true);
     })
   }
 
@@ -60,6 +63,9 @@ export const useFilterReports = () => {
     });
   }
   return {
+    success,
+    setSuccess,
+    statusMessage,
     reportsList,
     filteredList,
     setReportsList,

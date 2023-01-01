@@ -37,35 +37,36 @@ export const useGetReportsPdf = () => {
     return headers;
   }
   const handleSubmitPdf = (reports) => {
-    console.log(reports);
-    const keys = getKeys(reports);
-    const data = reports.map((report) => {
-      return Object.values({ ...report, total: report.total.toFixed(2) + ' USD' });
-    })
-    console.log(data);
-    const headers = createHeaders(keys);
-    const doc = new jsPDF({ putOnlyUsedFonts: true, orientation: 'landscape' });
-    doc.setFontSize(1);
-    autoTable(doc, {
-      startY: 30,
-      head: [keys],
-      headStyles: {
-        fontSize: 7,
-        halign: 'center',
-        valign: 'middle'
-      },
-      body: data,
-      theme: "grid",
-      styles: {
-        fontSize: 7,
-      },
-      didDrawPage: (data) => {
-        doc.setFontSize(20);
-        doc.setTextColor(40);
-        doc.text(`Reporte generado en ${(new Date()).toLocaleDateString()}`, data.settings.margin.left, 22);
-      }
-    });
-    doc.save('example.pdf');
+    if (reports.length > 0) {
+      const keys = getKeys(reports);
+      const data = reports.map((report) => {
+        return Object.values({ ...report, total: report.total.toFixed(2) + ' USD' });
+      })
+      console.log(data);
+      const headers = createHeaders(keys);
+      const doc = new jsPDF({ putOnlyUsedFonts: true, orientation: 'landscape' });
+      doc.setFontSize(1);
+      autoTable(doc, {
+        startY: 30,
+        head: [keys],
+        headStyles: {
+          fontSize: 7,
+          halign: 'center',
+          valign: 'middle'
+        },
+        body: data,
+        theme: "grid",
+        styles: {
+          fontSize: 7,
+        },
+        didDrawPage: (data) => {
+          doc.setFontSize(20);
+          doc.setTextColor(40);
+          doc.text(`Reporte generado en ${(new Date()).toLocaleDateString()}`, data.settings.margin.left, 22);
+        }
+      });
+      doc.save('example.pdf');
+    }
   }
   return {
     handleSubmitPdf

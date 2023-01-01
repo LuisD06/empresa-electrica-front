@@ -5,6 +5,7 @@
   flex-direction: column;
   width: 50vw;
   padding: 15px;
+  position: relative;
   &__title {
     margin: 0;
     align-self: flex-end;
@@ -13,6 +14,23 @@
     display: flex;
     flex-direction: column;
     gap: 5px
+  }
+  &__button-wrapper {
+    width: 45%;
+    height: 2rem;
+  }
+  &__alert-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba($color: #000000, $alpha: 0.35);
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 4;
   }
 
 }

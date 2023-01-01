@@ -8,7 +8,7 @@ const Menu = (props) => {
         <>
             <div className="navigation">
                 <div className="brand">
-                    <p>brand</p>
+                    <img src="https://seeklogo.com/images/E/empresa-electrica-quito-s-a-logo-F883FDF254-seeklogo.com.png" alt="brand" className='brand__img'/>
                 </div>
                 <ul>
                     {

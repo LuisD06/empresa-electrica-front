@@ -28,7 +28,7 @@ export const Login = () => {
             console.log(JSON.stringify(response?.data));
             const { status, data } = response?.data;
             console.log(status, data);
-            // TODO: Validar jwt
+ 
             if (status) {
                 setUserContext(data);
                 if (data.tipo === 'operador') {
@@ -37,12 +37,7 @@ export const Login = () => {
                     navigate("/user/dashboard");
                 }
             }
-            // const accessToken = response?.data?.accessToken;
-            // const roles = response?.data?.roles;
-            // setAuth({ user, password, roles, accessToken});
-            // setUser('');
-            // setPassword('');
-            // setSuccess(true);
+           
         } catch (error) {
             if (!error.response) {
                 setErrorMessage('No server response');
@@ -107,8 +102,10 @@ export const Login = () => {
                                 <button className="submit">Entrar</button>
                             </div>
                             {/* <p>¿No tiene una cuenta? <a href="">Registrarse</a></p> */}
-                            <p>¿No tiene una cuenta? <Link to="/register">Registrarse</Link></p>
-                            <p ref={errorRef} className={errorMessage ? "errorMessage" : "hidenMessage"} aria-live="assertive">{errorMessage}</p>
+                            <div className='login-wrapper'>
+                                <p>¿No tiene una cuenta? <Link to="/register">Registrarse</Link></p>
+                                <p ref={errorRef} className={errorMessage ? "errorMessage" : "hidenMessage"} aria-live="assertive">{errorMessage}</p>
+                            </div>
                         </form>
                     </div>
                 </div>

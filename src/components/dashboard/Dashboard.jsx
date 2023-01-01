@@ -68,10 +68,6 @@ export const Dashboard = () => {
                                     <p>{userContext.nombre}</p>
                                 </div>
                                 <div className="client-info-group">
-                                    <h4>Dirección</h4>
-                                    <p>{userContext.direccion}</p>
-                                </div>
-                                <div className="client-info-group">
                                     <h4>Teléfono</h4>
                                     <p>{userContext.telefono}</p>
                                 </div>
@@ -95,9 +91,11 @@ export const Dashboard = () => {
                                 <GraphicVoltaje value={medidor.Temperatura} title={"Temperatura"} />
                                 <GraphicVoltaje value={medidor.Voltaje} title={"Voltaje"} />
                                 <GraphicVoltaje value={medidor.Suma} title={"Consumo"} />
+                                <GraphicVoltaje value={((medidor.Suma * 0.092)/100).toFixed(2) + ' USD'} title={"Total"} />
                             </div>
                         </div>
                         <div className='map-section'>
+                            <h3>Dirección</h3>
                             <Map position={[userContext.medidor.lat, userContext.medidor.lng]}/>
                         </div>
                         
