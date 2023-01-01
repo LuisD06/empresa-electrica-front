@@ -65,7 +65,7 @@ export const useGetReportsPdf = () => {
           doc.text(`Reporte generado en ${(new Date()).toLocaleDateString()}`, data.settings.margin.left, 22);
         }
       });
-      doc.save('example.pdf');
+      doc.save(`reporte_${(new Date()).toLocaleDateString()}`);
     }
   }
   return {
