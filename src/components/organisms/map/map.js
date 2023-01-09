@@ -6,6 +6,15 @@ import './map.css'
 import icon from 'leaflet/dist/images/marker-icon.png'
 import iconShadow from 'leaflet/dist/images/marker-shadow.png'
 import { useEffect, useState } from 'react'
+import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch'
+import './../../../../node_modules/leaflet-geosearch/dist/geosearch.css'
+import "leaflet-control-geocoder/dist/Control.Geocoder.css"
+import "leaflet-control-geocoder/dist/Control.Geocoder.js"
+
+const searchControl = new GeoSearchControl({
+  provider: new OpenStreetMapProvider(),
+  style: 'bar',
+});
 
 let DefaultIcon = L.icon({
   iconUrl: icon,
@@ -22,8 +31,11 @@ export const Map = ({ search = false, onClick, position }) => {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
+      {/* <AddSearch /> */}
+      <LeafletControlGeocoder/>
       
       {
+        
         search ?
           <LocationMarker onClick={(value) => onClick(value)} /> :
           <>
@@ -38,6 +50,42 @@ export const Map = ({ search = false, onClick, position }) => {
     </MapContainer>
   );
 }
+const LeafletControlGeocoder = () => {
+  const map = useMap();
+
+  useEffect(() => {
+    var geocoder = L.Control.Geocoder.nominatim();
+  
+
+    L.Control.geocoder({
+      query: "",
+      placeholder: "Search here...",
+      defaultMarkGeocode: false,
+      geocoder
+    })
+      .on("markgeocode", function (e) {
+        var latlng = e.geocode.center;
+        L.marker(latlng)
+          .addTo(map)
+          .bindPopup(e.geocode.name)
+          .openPopup();
+        map.fitBounds(e.geocode.bbox);
+      })
+      .addTo(map);
+  }, []);
+
+  return null;
+}
+
+export const AddSearch = () => {
+  const map = useMap();
+  useEffect(() => {
+    map.addControl(searchControl);
+  },
+  [])
+  return null;
+}
+
 export const CenterPosition = ({ position }) => {
   const map = useMap();
   useEffect(() => {

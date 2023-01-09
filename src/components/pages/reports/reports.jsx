@@ -9,7 +9,7 @@ import { useGetReportsPdf } from './use-get-reports-pdf/use-get-reports-pdf';
 import { useShowMap } from './use-show-map/use-show-map';
 export const Reports = () => {
 
-  const { reportsList, filteredList, filterByProperty, isFiltered, filters, success, setSuccess, statusMessage } = useFilterReports();
+  const { reportsList, filteredList, filterByProperty, isFiltered, filters, success, setSuccess, statusMessage, getList} = useFilterReports();
   const { handleShowMap, position } = useShowMap();
   const { handleSubmitPdf } = useGetReportsPdf();
   const mapTableRows = (list) => {
@@ -62,8 +62,8 @@ export const Reports = () => {
               <th><input onChange={(evt) => filterByProperty('tipoMedidor', evt.target.value)} placeholder="Tipo"></input></th>
               <th><input onChange={(evt) => filterByProperty('suministro', evt.target.value)} placeholder="# Suministro"></input></th>
               <th className='reports__filter-wrapper'>
-                <input type="number" placeholder="Consumo mínimo"></input>
-                <input type="number" placeholder="Consumo máximo"></input>
+                <input placeholder="Consumo mínimo" onChange={(evt) => filterByProperty('consumoMin', evt.target.value)}></input>
+                <input placeholder="Consumo máximo" onChange={(evt) => filterByProperty('consumoMax', evt.target.value)}></input>
               </th>
               <th></th>
               <th></th>
@@ -72,6 +72,13 @@ export const Reports = () => {
           <tbody>
             {mapTableRows(filteredList)}
           </tbody>
+          <tfoot>
+            <div className='reports__button-wrapper'>
+              <Button onClick={() => getList()}>
+                Actualizar
+              </Button>
+            </div>
+          </tfoot>
         </table>
       </div>
       <div className='reports__map-wrapper'>

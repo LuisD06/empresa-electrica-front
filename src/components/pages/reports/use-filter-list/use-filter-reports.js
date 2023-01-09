@@ -26,6 +26,7 @@ export const useFilterReports = () => {
       setSuccess(true);
     })
   }
+  
 
   const filterByProperty = (property, value) => {
     setFilters((currentFilters) => {
@@ -53,9 +54,21 @@ export const useFilterReports = () => {
       setFilteredList(() => {
         let newList = [...reportsList];
         updatedFilters.forEach((filter) => {
-          newList = newList.filter((report) =>
-            report[filter.name].toString().toLowerCase().includes(filter.value.toLowerCase())
-          );
+          if (filter.name === "consumoMin") {
+            newList = newList.filter((report) => {
+              const minLimit = value === "" ? 0 : parseFloat(filter.value);
+              return report['consumo'] >= minLimit;
+            });
+          }else if (filter.name === "consumoMax") {
+            newList = newList.filter((report) => {
+              const maxLimit = value === "" ? 999999 : parseFloat(filter.value);
+              return report['consumo'] <= maxLimit;
+            });
+          } else {
+            newList = newList.filter((report) =>
+              report[filter.name].toString().toLowerCase().includes(filter.value.toLowerCase())
+            );
+          }
         });
         return newList;
       })
@@ -71,6 +84,7 @@ export const useFilterReports = () => {
     setReportsList,
     filterByProperty,
     isFiltered,
-    filters
+    filters,
+    getList
   }
 }
