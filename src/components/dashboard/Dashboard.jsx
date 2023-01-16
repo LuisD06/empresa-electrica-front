@@ -35,7 +35,8 @@ export const Dashboard = () => {
                 date: item.data.date,
                 voltaje: item.data.voltaje,
                 energia: item.data.energia,
-                corriente: item.data.corriente
+                corriente: item.data.corriente,
+                suma: item.data.suma
             }));
             console.log(dateLabelList);
             setData(dateLabelList);
@@ -44,7 +45,7 @@ export const Dashboard = () => {
 
     useEffect(
         () => {
-            websocket.current = new WebSocket("ws://localhost:4001");
+            websocket.current = new WebSocket("ws://localhost:4000");
             websocket.current.onopen = () => console.log();
             websocket.current.onmessage = (event) => setMedidor(JSON.parse(event.data));
             websocket.current.onclose = (event) => console.log("ws closed" + event.data);
@@ -100,15 +101,15 @@ export const Dashboard = () => {
                         </div>
                         
                         <div className="chart-container">
-                            <h3>Historial de energía</h3>
+                            <h3>Historial de consumo</h3>
                             <div className='dashboard__month-input-wrapper'>
                                 <Input type="month" value={month} onChange={(evt) => handleViewChart(evt, 'month')} />
                             </div>
                             <ChartVoltaje
                                 datasets={[
                                     {
-                                        label: 'J',
-                                        data: data.map(medidorItem => medidorItem.energia),
+                                        label: 'Kw/h',
+                                        data: data.map(medidorItem => medidorItem.suma),
                                         borderColor: 'rgb(94, 230, 216)',
                                         backgroundColor: 'rgba(94, 230, 216, 0.5)'
                                     },
@@ -117,7 +118,7 @@ export const Dashboard = () => {
                                     const date = new Date(medidoritem.date).getDate();
                                     return date;
                                 })}
-                                title={`Energía ${month}`}
+                                title={`Consumo ${month}`}
                             />
                         </div>
                         

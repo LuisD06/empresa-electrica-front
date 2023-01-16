@@ -19,7 +19,8 @@ const useReportForm = () => {
       setStatusMessage('Operacion realizada con éxito !');
       setSuccess(true);
     }).catch((error) => {
-      setStatusMessage('Ha ocurrido un error');
+      const errorMessage = error.response.data.message;
+      setStatusMessage('Ha ocurrido un error: '+errorMessage);
       setSuccess(true);
     })
   }
