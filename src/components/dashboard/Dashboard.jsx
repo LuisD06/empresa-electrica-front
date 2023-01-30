@@ -45,7 +45,7 @@ export const Dashboard = () => {
     }
     useEffect(
         () => {
-            websocket.current = new WebSocket("ws://localhost:4000");
+            websocket.current = new WebSocket("ws://34.229.137.212");
             websocket.current.onopen = () => console.log();
             websocket.current.onmessage = (event) => setMedidor(JSON.parse(event.data));
             websocket.current.onclose = (event) => console.log("ws closed" + event.data);
