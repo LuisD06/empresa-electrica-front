@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import { createReport } from '../../../../services/report-service/report-service'
+import { createReportByMedidor } from '../../../../services/report-service/report-service'
 
 const useReportForm = () => {
   const [form, setForm] = useState({
-    id: '',
+    numero: '',
     date: ''
   })
   const [success, setSuccess] = useState(false);
@@ -15,7 +15,7 @@ const useReportForm = () => {
   }
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    createReport(form).then((data) => {
+    createReportByMedidor(form).then((data) => {
       setStatusMessage('Operacion realizada con éxito !');
       setSuccess(true);
     }).catch((error) => {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const GraphicVoltaje = ({value, title}) =>{
+export const GraphicVoltaje = ({value, title, units = ''}) =>{
     const [voltaje, setVoltaje] = useState(value);
     useEffect(
         () => setVoltaje(value),
@@ -9,7 +9,7 @@ export const GraphicVoltaje = ({value, title}) =>{
     return (
         <div className="graph">
             <h3>{title}</h3>
-            <p>{voltaje}</p>
+            <p>{voltaje} {units}</p>
         </div>
     );
 }

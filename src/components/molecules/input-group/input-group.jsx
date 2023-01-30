@@ -8,6 +8,8 @@ export const InputGroup = ({
     onChange, 
     required = false,
     disabled = false, 
+    valid = false,
+    errorMessage = ''
   }) => {
   return (
     <div className='input-group'>
@@ -20,6 +22,9 @@ export const InputGroup = ({
         required={required}
         disabled={disabled}
       />
+      {
+        !valid && <span>{errorMessage}</span>
+      }
     </div>
   );
 }

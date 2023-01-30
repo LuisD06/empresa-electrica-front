@@ -10,12 +10,12 @@ export const ReportForm = () => {
       <h3 className='report-form__title'>Generar Reporte</h3>
       <form onSubmit={(evt) => handleSubmit(evt)} className='report-form__form-wrapper'>
         <div className='repor-form__user-wrapper'>
-          <InputGroup label="Cédula" value={form.id} onChange={(value) => handleChangeValue('id', value)} required/>
+          <InputGroup label="# Medidor" value={form.numero} onChange={(value) => handleChangeValue('numero', value)} required/>
         </div>
         <div className='report-form__date-wrapper'>
           <InputGroup type='month' label='Fecha' value={form.date} onChange={(value) => handleChangeValue('date', value)} required/>
           <div className="report-form__button">
-            <Button>
+            <Button type='submit'>
               Generar Reporte
             </Button>
           </div>

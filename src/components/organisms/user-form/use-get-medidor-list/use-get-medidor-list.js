@@ -3,16 +3,20 @@ import { getMedidorList } from '../../../../services/medidor-service/medidor-ser
 
 const useGetMedidorList = () => {
   const [medidorList, setMedidorList] = useState([]);
+  const onGetData = () => {
+    getMedidorList().then((data) => {
+      setMedidorList(data);
+    })
+  }
   useEffect(
     () => {
-      getMedidorList().then((data) => {
-        setMedidorList(data);
-      })
+      onGetData();
     },
     []
   )
   return {
-    medidorList
+    medidorList,
+    onGetData
   }
 }
 export default useGetMedidorList;

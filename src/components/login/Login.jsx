@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState, useContext } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
 import axios from "../api/axios";
+import brand from './../../assets/img/brand.png'
 const LOGIN_URL = "/usuario/login";
 export const Login = () => {
     const navigate = useNavigate();
@@ -69,7 +70,7 @@ export const Login = () => {
             <div className="background">
                 <div className="login-container center">
                     <div className="logo-container">
-                        <img src="https://www.ccelrecreo.com/wp-content/uploads/2021/11/empresa-electrica-quito600x600.png" alt="logo.png" />
+                        <img src={brand} alt="logo.png" />
                     </div>
                     <div className="form-container">
                         <h2>LOGIN</h2>
@@ -99,11 +100,10 @@ export const Login = () => {
                             <div className="form-action-group">
                                 {/* <a href="">Entrar</a> */}
                                 {/* <Link to="/dashboard">Entrar</Link> */}
-                                <button className="submit">Entrar</button>
+                                <button  className="submit">Entrar</button>
                             </div>
                             {/* <p>¿No tiene una cuenta? <a href="">Registrarse</a></p> */}
                             <div className='login-wrapper'>
-                                <p>¿No tiene una cuenta? <Link to="/register">Registrarse</Link></p>
                                 <p ref={errorRef} className={errorMessage ? "errorMessage" : "hidenMessage"} aria-live="assertive">{errorMessage}</p>
                             </div>
                         </form>

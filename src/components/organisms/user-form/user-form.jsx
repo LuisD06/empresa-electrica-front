@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Button } from '../../atoms/button/button';
 import { Alert } from '../../molecules/alert/alert';
 import { InputGroup } from '../../molecules/input-group/input-group';
@@ -7,13 +8,19 @@ import useGetMedidorList from './use-get-medidor-list/use-get-medidor-list';
 import useUserForm from './use-user-form/use-user-form';
 import './user-form.scss'
 export const UserForm = () => {
-  const { form, handleChangeValue, handleSubmit, statusMessage, success, setSuccess } = useUserForm();
-  const { medidorList } = useGetMedidorList();
+  const { form, handleChangeValue, handleSubmit, statusMessage, success, setSuccess, valid, hasError } = useUserForm();
+  const { medidorList, onGetData } = useGetMedidorList();
+  useEffect(
+    () => {
+      onGetData();
+    },
+    [success]
+  )
   return (
     <div className='user-form'>
       <form className='user-form__form-wrapper' onSubmit={handleSubmit}>
         <h3 className='user-form__title'>Nuevo Usuario</h3>
-        <InputGroup label='Cédula' onChange={(value) => handleChangeValue('cedula', value)} value={form.cedula} required/>
+        <InputGroup label='Cédula' onChange={(value) => handleChangeValue('cedula', value)} value={form.cedula} required valid={valid} errorMessage={"Ya existe un usuario con esta cédula"}/>
         <InputGroup label='Nombre' onChange={(value) => handleChangeValue('nombre', value)} value={form.nombre} required/>
         <InputGroup label='Dirección' onChange={(value) => handleChangeValue('direccion', value)} value={form.direccion} required disabled/>
         <InputGroup label='Correo' onChange={(value) => handleChangeValue('correo', value)} value={form.correo} required/>
@@ -38,7 +45,7 @@ export const UserForm = () => {
           />
         }
         <div className='user-form__button-wrapper'>
-          <Button>
+          <Button disabled={!valid && form.tipo === 'operador'}>
             Aceptar
           </Button>
         </div>

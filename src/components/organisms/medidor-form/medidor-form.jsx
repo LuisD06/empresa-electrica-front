@@ -58,7 +58,7 @@ export const MedidorForm = () => {
           disabled
         />
         <div className='medidor-form__button-wrapper'>
-          <Button>
+          <Button type='submit'>
             Guardar
           </Button>
         </div>

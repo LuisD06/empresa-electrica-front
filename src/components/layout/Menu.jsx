@@ -1,14 +1,14 @@
-import { useContext } from 'react';
-import { Link } from "react-router-dom";
-import { AuthContext } from '../../context/AuthProvider';
-
+import { useContext } from 'react'
+import { Link } from "react-router-dom"
+import { AuthContext } from '../../context/AuthProvider'
+import brand from './../../assets/img/brand.png'
 const Menu = (props) => {
     const { userContext } = useContext(AuthContext);
     return (
         <>
             <div className="navigation">
                 <div className="brand">
-                    <img src="https://seeklogo.com/images/E/empresa-electrica-quito-s-a-logo-F883FDF254-seeklogo.com.png" alt="brand" className='brand__img'/>
+                    <img src={brand} alt="brand" className='brand__img'/>
                 </div>
                 <ul>
                     {
@@ -22,6 +22,9 @@ const Menu = (props) => {
                                 </li>
                                 <li className="nav-item">
                                     <Link to="/user/register-user" className="nav-link">Registrar Usuario</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link to="/user/manage-medidor" className="nav-link">Asignar Medidor</Link>
                                 </li>
                             </> :
                             <li className="nav-item">
