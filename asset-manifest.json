@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/empresa-electrica-front/static/css/main.2797c9c9.css",
-    "main.js": "/empresa-electrica-front/static/js/main.da35bf9c.js",
+    "main.js": "/empresa-electrica-front/static/js/main.ed76f108.js",
     "static/js/498.238e31d2.chunk.js": "/empresa-electrica-front/static/js/498.238e31d2.chunk.js",
     "static/js/703.e89d1c62.chunk.js": "/empresa-electrica-front/static/js/703.e89d1c62.chunk.js",
     "static/js/513.a25323a7.chunk.js": "/empresa-electrica-front/static/js/513.a25323a7.chunk.js",
     "index.html": "/empresa-electrica-front/index.html",
     "main.2797c9c9.css.map": "/empresa-electrica-front/static/css/main.2797c9c9.css.map",
-    "main.da35bf9c.js.map": "/empresa-electrica-front/static/js/main.da35bf9c.js.map",
+    "main.ed76f108.js.map": "/empresa-electrica-front/static/js/main.ed76f108.js.map",
     "498.238e31d2.chunk.js.map": "/empresa-electrica-front/static/js/498.238e31d2.chunk.js.map",
     "703.e89d1c62.chunk.js.map": "/empresa-electrica-front/static/js/703.e89d1c62.chunk.js.map",
     "513.a25323a7.chunk.js.map": "/empresa-electrica-front/static/js/513.a25323a7.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.2797c9c9.css",
-    "static/js/main.da35bf9c.js"
+    "static/js/main.ed76f108.js"
   ]
 }
