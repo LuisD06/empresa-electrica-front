@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, HashRouter as Router } from "react-router-dom";
 import { ManageMedidorAdmin } from '../components/pages/manage-medidor-admin/manage-medidor-admin';
 import RegisterMedidorAdmin from '../components/pages/register-medidor-admin/register-medidor-admin';
 import RegisterUserAdmin from '../components/pages/register-user-admin/register-user-admin';
@@ -11,9 +11,9 @@ import { Reports } from './../components/pages/reports/reports';
 const MainNavigation = () => {
   const { userContext } = useContext(AuthContext);
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Login />} />
+    <Router >
+      <Routes >
+        <Route  path="/" element={<Login />} />
         <Route path="/user" element={<Layout />}>
           {
             userContext.tipo === 'operador' ?
@@ -27,7 +27,7 @@ const MainNavigation = () => {
           }
         </Route>
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 }
 export default MainNavigation;
