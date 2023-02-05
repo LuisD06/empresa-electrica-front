@@ -1,12 +1,17 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export const useShowMap = () => {
   const [showMap, setShowMap] = useState(false);
-  const [position, setPosition] = useState([-0.1892741496883334, -78.4977070330735]);
+  const [position, setPosition] = useState([{lat:-0.1892741496883334,lng: -78.4977070330735}]);
+  useEffect(() => {
+    console.log(position)
+  },[])
   const handleShowMap = (position) => {
     const [lat, lng] = position.split(',');
-    // const latlng = [parseFloat(lat), parseFloat(lng)]; 
-    setPosition([lat,lng]);
+    setPosition([{
+      lat: lat,
+      lng: lng
+    }]);
     setShowMap(!showMap);
   }
   return {

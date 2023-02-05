@@ -12,6 +12,10 @@ export const Reports = () => {
   const { reportsList, filteredList, filterByProperty, isFiltered, filters, success, setSuccess, statusMessage, getList} = useFilterReports();
   const { handleShowMap, position } = useShowMap();
   const { handleSubmitPdf } = useGetReportsPdf();
+  useEffect(() => {
+    console.log("map report");
+    console.log(position);
+  },[position])
   const mapTableRows = (list) => {
     return list.map((report) => (
       <tr key={report.id} className="reports__table-row">
@@ -82,7 +86,10 @@ export const Reports = () => {
         </table>
       </div>
       <div className='reports__map-wrapper'>
-        <Map search={false} position={position} />
+        {
+          position && position[0] && <Map search={false} positions={position} />
+        }
+        
       </div>
       <div className='reports__pdf-wrapper'>
         <Button onClick={() => handleSubmitPdf(filteredList)}>

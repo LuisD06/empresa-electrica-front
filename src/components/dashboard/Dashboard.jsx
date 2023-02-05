@@ -25,27 +25,38 @@ export const Dashboard = () => {
             setMonth(evt);
             setDay("");
         }
+        const medidoresList = instances.map((instance) => {
+            return instance.data.id;
+        })
         const data = {
-            date: evt
+            date: evt,
+            medidores: medidoresList
         }
         console.log(data);
 
         getMedicion(type, data).then((res) => {
             console.log(res);
-            const dateLabelList = res.map(item => ({
-                date: item.data.date,
-                voltaje: item.data.voltaje,
-                energia: item.data.energia,
-                corriente: item.data.corriente,
-                suma: item.data.suma
-            }));
-            console.log(dateLabelList);
-            setData(dateLabelList);
+            const mediciones = res;
+            let medicionesList = {};
+            instances.forEach((instance) => {
+                let medidorObj = res[instance.data.id];
+                if (medidorObj !== undefined) {
+                    const dateLabelList = medidorObj.map(item => ({
+                        date: item.data.date,
+                        voltaje: item.data.voltaje,
+                        energia: item.data.energia,
+                        corriente: item.data.corriente,
+                        suma: item.data.suma
+                    }));
+                    medicionesList[instance.data.id] = dateLabelList
+                }
+            })
+            setData(medicionesList);
         })
     }
     useEffect(
         () => {
-            websocket.current = new WebSocket("ws://localhost:4000");
+            websocket.current = new WebSocket("ws://100.26.18.167");
             websocket.current.onopen = () => console.log();
             websocket.current.onmessage = (event) => setMedidor(JSON.parse(event.data));
             websocket.current.onclose = (event) => console.log("ws closed" + event.data);
@@ -102,7 +113,13 @@ export const Dashboard = () => {
 
                         <div className='map-section'>
                             <h3>Dirección</h3>
-                            <Map position={[userContext.medidor.lat, userContext.medidor.lng]} />
+                            {
+                                userContext &&
+                                <Map positions={userContext.medidores.map((medidor) => {
+                                    console.log(medidor);
+                                    return {lat:medidor.data.lat, lng:medidor.data.lng}
+                                })} />
+                            }
                         </div>
 
                         <div className="chart-container">
@@ -118,16 +135,17 @@ export const Dashboard = () => {
                                             datasets={[
                                                 {
                                                     label: 'Kw/h',
-                                                    data: data.map(medidorItem => medidorItem.suma),
+                                                    data: data[instance.data.id] ? data[instance.data.id].map(medidorItem => medidorItem.suma) : [],
                                                     borderColor: 'rgb(94, 230, 216)',
                                                     backgroundColor: 'rgba(94, 230, 216, 0.5)'
                                                 },
                                             ]}
-                                            labels={data.map(medidoritem => {
+                                            labels={
+                                                data[instance.data.id] ? data[instance.data.id].map(medidoritem => {
                                                 const date = new Date(medidoritem.date).getDate();
                                                 return date;
-                                            })}
-                                            title={`Meidor ${instance.data.numero} Consumo ${month}`}
+                                            }) : []}
+                                            title={`Medidor ${instance.data.numero} Consumo ${month}`}
                                         />
                                     )
                                 })

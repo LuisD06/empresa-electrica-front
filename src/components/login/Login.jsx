@@ -31,6 +31,7 @@ export const Login = () => {
             console.log(status, data);
  
             if (status) {
+                
                 setUserContext(data);
                 if (data.tipo === 'operador') {
                     navigate("/user/reports");
