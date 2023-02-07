@@ -45,7 +45,7 @@ export const UserForm = () => {
           />
         }
         <div className='user-form__button-wrapper'>
-          <Button disabled={!valid && form.tipo === 'operador'}>
+          <Button disabled={!valid && form.tipo === 'operador'} type='submit'>
             Aceptar
           </Button>
         </div>

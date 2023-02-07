@@ -3,6 +3,7 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
 import axios from "../api/axios";
 import brand from './../../assets/img/brand.png'
+import loginImage from './../../assets/img/login.jfif'
 const LOGIN_URL = "/usuario/login";
 export const Login = () => {
     const navigate = useNavigate();
@@ -71,7 +72,7 @@ export const Login = () => {
             <div className="background">
                 <div className="login-container center">
                     <div className="logo-container">
-                        <img src={brand} alt="logo.png" />
+                        <img src={loginImage} alt="logo.png" />
                     </div>
                     <div className="form-container">
                         <h2>LOGIN</h2>

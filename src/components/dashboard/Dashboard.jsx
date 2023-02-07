@@ -2,6 +2,7 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { AuthContext } from '../../context/AuthProvider';
 import { getMedicion } from '../../services/medicion-service/medicion-service';
 import { Input } from '../atoms/input/input';
+import { Alert } from '../molecules/alert/alert';
 import { Map } from '../organisms/map/map';
 import { ChartVoltaje } from './charts/ChartVoltaje';
 import { GraphicVoltaje } from './charts/GraphicVoltaje';
@@ -15,6 +16,8 @@ export const Dashboard = () => {
     const [day, setDay] = useState("");
     const [month, setMonth] = useState("");
     const { userContext } = useContext(AuthContext);
+    const [error, setError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
     const websocket = useRef(null);
     const handleViewChart = (evt, type) => {
         if (type === 'day') {
@@ -52,11 +55,14 @@ export const Dashboard = () => {
                 }
             })
             setData(medicionesList);
+        }).catch((error) => {
+            setErrorMessage(error.response.data.message);
+            setError(true);
         })
     }
     useEffect(
         () => {
-            websocket.current = new WebSocket("ws://100.26.18.167");
+            websocket.current = new WebSocket("ws://localhost:4001");
             websocket.current.onopen = () => console.log();
             websocket.current.onmessage = (event) => setMedidor(JSON.parse(event.data));
             websocket.current.onclose = (event) => console.log("ws closed" + event.data);
@@ -131,22 +137,30 @@ export const Dashboard = () => {
                                 instances &&
                                 instances.map((instance) => {
                                     return (
-                                        <ChartVoltaje
-                                            datasets={[
-                                                {
-                                                    label: 'Kw/h',
-                                                    data: data[instance.data.id] ? data[instance.data.id].map(medidorItem => medidorItem.suma) : [],
-                                                    borderColor: 'rgb(94, 230, 216)',
-                                                    backgroundColor: 'rgba(94, 230, 216, 0.5)'
-                                                },
-                                            ]}
-                                            labels={
-                                                data[instance.data.id] ? data[instance.data.id].map(medidoritem => {
-                                                const date = new Date(medidoritem.date).getDate();
-                                                return date;
-                                            }) : []}
-                                            title={`Medidor ${instance.data.numero} Consumo ${month}`}
-                                        />
+                                        <div className='dashboard__chart-wrapper'>
+                                            <ChartVoltaje
+                                                className='dashboard__chart'
+                                                key={instance.data.id}
+                                                datasets={[
+                                                    {
+                                                        label: 'Kw/h',
+                                                        data: data[instance.data.id] ? data[instance.data.id].map(medidorItem => medidorItem.suma) : [],
+                                                        borderColor: 'rgb(94, 230, 216)',
+                                                        backgroundColor: 'rgba(94, 230, 216, 0.5)'
+                                                    },
+                                                ]}
+                                                labels={
+                                                    data[instance.data.id] ? data[instance.data.id].map(medidoritem => {
+                                                    const date = new Date(medidoritem.date).getDate();
+                                                    return date;
+                                                }) : []}
+                                                title={`Medidor ${instance.data.numero} Consumo ${month}`}
+                                            />
+                                            <div className='dashboard__chart-detail'>
+                                                <h3>Consumo</h3>
+                                                <p>{data[instance.data.id] ? (data[instance.data.id].at(-1).suma * 0.092 / 100).toFixed(2) : 0} $</p>
+                                            </div>
+                                        </div>
                                     )
                                 })
                             }
@@ -157,6 +171,12 @@ export const Dashboard = () => {
                     </div>
                 </div>
             </div>
+            {
+                error &&
+                <div className='dashboard__alert-wrapper'>
+                    <Alert title={errorMessage} onClick={() => setError(false)}/>
+                </div>
+            }
 
 
         </>

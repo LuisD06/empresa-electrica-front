@@ -21,7 +21,7 @@ ChartJS.register(
     Legend
 );
 
-export const ChartVoltaje = ({labels, datasets, title}) => {
+export const ChartVoltaje = ({labels, datasets, title, className}) => {
     const [data, setData] = useState({
         labels: labels,
         datasets: datasets
@@ -62,7 +62,7 @@ export const ChartVoltaje = ({labels, datasets, title}) => {
     )
 
     return (
-        <div>
+        <div className={className}>
             <Line width="50px" height="10px"  options={options} data={data} />
         </div>
     );

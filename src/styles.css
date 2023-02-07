@@ -126,7 +126,6 @@ body {
     background-color: rgba(5, 175, 242, 0.9);
     width: 50%;
     border-radius: 12px 0px 0px 12px;
-    padding: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -134,7 +133,9 @@ body {
 
 .logo-container img {
     width: 100%;
+    height: 100%;
     object-fit: cover;
+    border-radius: 12px 0px 0px 12px;
 }
 
 
